@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="/static/css/common.css">
+    <style>
+        .classify .item{
+            display: inline-block;
+            line-height: 40px;
+            text-align: center;
+            padding: 0 15px;
+            cursor: pointer;
+        }
+        .classify .item.active{
+            background-color: #00aef0;
+        }
+
+    </style>
+</head>
+<body>
+{% include 'common/header.html' %}
+<div id="container" class="container">
+    <div class="classify">
+        <div class="item" v-for="(item,index) in classList" :class="[classifySelectIndex==index?'active':'']" v-text="item.name" @click="selectClassify(item.id,index)"></div>
+    </div>
+</div>
+<script src="/static/js/vue.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+
+<script>
+    new Vue({
+        el: "#container",
+        data: {
+            classList:[],
+            articleLists:[],
+            classifySelectIndex:0,
+        },
+        created: function () {
+            this.fetchClassify();
+            this.fetchArticles();
+        },
+        methods: {
+            fetchClassify: function () {
+                var _me = this;
+                $.ajax('/classify').then(function (res) {
+                    res = JSON.parse(res);
+                    _me.classList = res;
+                })
+
+            },
+            fetchArticles:function(){
+              var _me = this;
+              $.ajax('/articles').then(function (res) {
+                  res = JSON.parse(res)
+                  _me.articleLists = res;
+              })
+            },
+            selectClassify:function (id,index) {
+                this.classifySelectIndex = index;
+            }
+        }
+
+    })
+
+
+</script>
+
+</body>
+</html>
