@@ -23,5 +23,5 @@ urlpatterns = [
     path('index/', web.index),
     path('classify/', web.classify),
     path('articles/', web.articles),
-
+    path('login/', web.login),
 ]

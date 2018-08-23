@@ -3,20 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
-    <link rel="stylesheet" href="/static/css/common.css">
-    <style>
-        .classify .item{
-            display: inline-block;
-            line-height: 40px;
-            text-align: center;
-            padding: 0 15px;
-            cursor: pointer;
-        }
-        .classify .item.active{
-            background-color: #00aef0;
-        }
-
-    </style>
+    <link rel="stylesheet" href="/static/css/index/index.css">
 </head>
 <body>
 {% include 'common/header.html' %}
@@ -24,9 +11,18 @@
     <div class="classify">
         <div class="item" v-for="(item,index) in classList" :class="[classifySelectIndex==index?'active':'']" v-text="item.name" @click="selectClassify(item.id,index)"></div>
     </div>
+    <div v-for="item in articleLists" class="article">
+        <a :href="'/articleDetail'+item.id" v-text="item.title" class="title"></a>
+        <div v-text="item.description" class="description"></div>
+        <div class="info">
+            <a :href="'/user'+item.author_id" v-text="item.author__name"></a>
+            <span>发布于 2018-08-22 15:02</span>
+            <span>评论</span>
+            <span>阅读</span>
+        </div>
+    </div>
+    
 </div>
-<script src="/static/js/vue.js"></script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
 
 <script>
     new Vue({
@@ -46,6 +42,7 @@
                 $.ajax('/classify').then(function (res) {
                     res = JSON.parse(res);
                     _me.classList = res;
+                    _me.classList.unshift({id:'',name:'全部'})
                 })
 
             },
@@ -57,10 +54,19 @@
               })
             },
             selectClassify:function (id,index) {
+                var _me = this;
                 this.classifySelectIndex = index;
+                $.ajax({
+                    url:'/articles',
+                    data:{
+                        classify_id:id
+                    }
+                }).then(function(res){
+                    res = JSON.parse(res);
+                    _me.articleLists = res;
+                })
             }
         }
-
     })
 
 

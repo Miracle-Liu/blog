@@ -1,0 +1,13 @@
+.idea
+.vscode
+*.log
+*.local
+runtime
+config*
+new_cron_log
+database.php
+*.scss
+*.map
+new_service_photos/
+public/uploads/
+*.lockfile

@@ -1,0 +1,35 @@
+.classify .item {
+  display: inline-block;
+  line-height: 40px;
+  text-align: center;
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+.classify .item.active {
+  background-color: #007aff;
+  color: #fff;
+}
+
+.article {
+  margin-top: 20px;
+  height: 100px;
+  border-bottom: 1px solid #ddd;
+  padding-left: 20px;
+}
+
+.article a:hover {
+  color: #ec1b2a;
+}
+
+.article .description {
+  color: #333;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.article .info {
+  font-size: 14px;
+}
+/*# sourceMappingURL=index.css.map */
