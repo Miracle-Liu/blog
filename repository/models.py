@@ -5,6 +5,8 @@ class User(models.Model):
     name = models.CharField(max_length=32)
     interest = models.CharField(max_length=120)
     password =models.CharField(max_length=32)
+    email = models.CharField(max_length=64)
+    mobile_phone = models.CharField(max_length=12)
 
 
 class Classify(models.Model):
