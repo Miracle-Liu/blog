@@ -17,7 +17,7 @@ def classify(request):
 def articles(request):
     res = models.Article.objects.all().values()
     for(item in res):
-        item.create_time = 
+        item.create_time =
     data = json.dumps(list(res))
     return HttpResponse(data)
 
