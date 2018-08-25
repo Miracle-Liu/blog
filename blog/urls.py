@@ -25,4 +25,5 @@ urlpatterns = [
     path('articles/', web.articles),
     path(r'login', web.login),
     path(r'register', web.register),
+    path(r'imgCode', web.imgCode),
 ]
