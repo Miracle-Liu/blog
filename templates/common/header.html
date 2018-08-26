@@ -20,52 +20,13 @@
 
             </div>
             <div class="unlogin">
-                <span @click="loginDialogVisible = true">登录</span>
-                <span @click="registerDialogVisible = true">注册</span>
+                <a href="/login">登录</a>
+                <a href="/register">注册</a>
             </div>
         </div>
 
-        <el-dialog title="登录" :visible.sync="loginDialogVisible" width="30%">
-            <el-form :model="loginForm" :rule="loginRule" ref="loginRule">
-                <el-form-item label="用户名" :label-width="formLabelWidth">
-                    <el-input v-model="loginForm.name" placeholder="请输入用户名"></el-input>
-                </el-form-item>
-                <el-form-item label="密码" :label-width="formLabelWidth">
-                    <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="loginDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="login">确 定</el-button>
-            </div>
-        </el-dialog>
-        <el-dialog title="注册" :visible.sync="registerDialogVisible" width="30%">
-            <el-form :model="registerForm" :rule="registerRule" ref="registerRule">
-                <el-form-item label="用户名" :label-width="formLabelWidth">
-                    <el-input v-model="registerForm.name" placeholder="请输入用户名"></el-input>
-                </el-form-item>
-                <el-form-item label="邮箱" :label-width="formLabelWidth">
-                    <el-input v-model="registerForm.email" placeholder="请输入邮箱"></el-input>
-                </el-form-item>
-                <el-form-item label="验证验" :label-width="formLabelWidth">
-                    <el-input v-model="registerForm.code" placeholder="请输入图片验证码"></el-input>
-                    <img src="/imgCode" alt="">
-                </el-form-item>
-                <el-form-item label="手机号" :label-width="formLabelWidth">
-                    <el-input v-model="registerForm.mobile_phone" placeholder="请输入手机号"></el-input>
-                </el-form-item>
-                <el-form-item label="密码" :label-width="formLabelWidth">
-                    <el-input v-model="registerForm.password" type="password" placeholder="请输入密码"></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" :label-width="formLabelWidth">
-                    <el-input v-model="registerForm.again_pwd" type="password" placeholder="请输入确认密码"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="registerDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="register">确 定</el-button>
-            </div>
-        </el-dialog>
+
+
     </div>
 </body>
 <script src="/static/js/vue.js"></script>
@@ -73,66 +34,14 @@
 <script src="https://cdn.bootcss.com/axios/0.18.0/axios.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
 <script src="https://cdn.bootcss.com/js-cookie/latest/js.cookie.js"></script>
+<script src="/static/js/request.js"></script>
+
 <script>
     new Vue({
         el: "#header",
         data: {
-            imgcode: "",
-            loginDialogVisible: false,
-            registerDialogVisible: false,
-            formLabelWidth: '70px',
-            loginForm: {
-                name: '',
-                password: ''
-            },
-            loginRule: {
-                name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
-                password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-            },
-            registerForm: {
-                name: '',
-                email: '',
-                mobile_phone: '',
-                password: '',
-                again_pwd: '',
-            },
-            registerRule: {
-                name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
-                email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
-                password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-                again_pwd: [{ required: true, message: '请再次输入密码', trigger: 'blur' }],
-            },
-        },
-        created() {
-            {#this.fetchImgCode()#}
         },
         methods: {
-            fetchImgCode() {
-                axios.get('/imgCode').then(res => {
-                    console.log(res)
-                })
-            },
-            login: function () {
-                var _me = this;
-                this.$refs['loginRule'].validate((valid) => {
-                    if (valid) {
-                        $.ajax({
-                            url: "/login",
-                            method: 'POST',
-                            headers: { "X-CSRFToken": Cookies.get('csrftoken') },
-                            data: _me.loginForm
-                        }).then(function (res) {
-                            res = JSON.parse(res);
-                            if (res.code == 0) {
-                                _me.$message.success(res.msg);
-                            } else {
-                                _me.$message.error(res.msg);
-                            }
-                            _me.loginDialogVisible = false;
-                        })
-                    }
-                })
-            },
             register: function () {
                 var _me = this;
                 this.$refs['registerRule'].validate((valid) => {

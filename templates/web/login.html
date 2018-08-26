@@ -1,0 +1,48 @@
+{% include 'common/header.html' %}
+<div id="login-container">
+    <el-dialog title="登录" :visible.sync="loginDialogVisible" width="30%">
+        <el-form :model="loginForm" :rule="loginRule" ref="loginRule">
+            <el-form-item label="用户名" :label-width="formLabelWidth">
+                <el-input v-model="loginForm.name" placeholder="请输入用户名"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" :label-width="formLabelWidth">
+                <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="loginDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="login">确 定</el-button>
+        </div>
+    </el-dialog>
+</div>
+
+<script>
+    new Vue({
+        el: "#login-container",
+        data: {
+            loginDialogVisible: true,
+            formLabelWidth: '70px',
+            loginForm: {
+                name: '',
+                password: ''
+            },
+            loginRule: {
+                name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
+                password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+            },
+
+        },
+        methods: {
+            login: function () {
+                this.$refs['loginRule'].validate((valid) => {
+                    if (valid) {
+                        http.post('/login', this.loginForm).then(res => {
+                            window.location = '/index';
+                        })
+                    }
+                })
+            },
+        }
+    })
+
+</script>

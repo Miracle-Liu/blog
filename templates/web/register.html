@@ -1,0 +1,68 @@
+{% include 'common/header.html' %}
+<div id="register-container">
+    <el-dialog title="注册" :visible.sync="registerDialogVisible" width="30%">
+        <el-form :model="registerForm" :rule="registerRule" ref="registerRule">
+            <el-form-item label="用户名" :label-width="formLabelWidth">
+                <el-input v-model="registerForm.name" placeholder="请输入用户名"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱" :label-width="formLabelWidth">
+                <el-input v-model="registerForm.email" placeholder="请输入邮箱"></el-input>
+            </el-form-item>
+            <el-form-item label="验证验" :label-width="formLabelWidth">
+                <div style="display:flex;">
+                    <el-input v-model="registerForm.code" placeholder="请输入图片验证码"></el-input>
+                    <img :src="imgCode" alt="" style="width: 100px;height: 40px;cursor: pointer;" @click="fetchImgCode">
+                </div>
+            </el-form-item>
+            <el-form-item label="手机号" :label-width="formLabelWidth">
+                <el-input v-model="registerForm.mobile_phone" placeholder="请输入手机号"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" :label-width="formLabelWidth">
+                <el-input v-model="registerForm.password" type="password" placeholder="请输入密码"></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" :label-width="formLabelWidth">
+                <el-input v-model="registerForm.again_pwd" type="password" placeholder="请输入确认密码"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="registerDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="register">确 定</el-button>
+        </div>
+    </el-dialog>
+</div>
+
+
+<script>
+    new Vue({
+        el: "#register-container",
+        data: {
+            formLabelWidth: '70px',
+            imgCode: "",
+            registerDialogVisible: true,
+            registerForm: {
+                name: '',
+                email: '',
+                mobile_phone: '',
+                password: '',
+                again_pwd: '',
+            },
+            registerRule: {
+                name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
+                email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+                password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+                again_pwd: [{ required: true, message: '请再次输入密码', trigger: 'blur' }],
+            },
+        },
+        created() {
+            this.fetchImgCode()
+        },
+        methods: {
+            fetchImgCode() {
+                http.get('/imgCode').then(res => {
+                    this.imgCode = res;
+                    console.log(this.imgCode)
+                })
+            },
+        }
+    })
+</script>
