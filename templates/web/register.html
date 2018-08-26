@@ -63,6 +63,12 @@
                     console.log(this.imgCode)
                 })
             },
+            register() {
+
+                http.post('/register', this.registerForm).then(res => {
+                    location = '/login'
+                })
+            }
         }
     })
 </script>
